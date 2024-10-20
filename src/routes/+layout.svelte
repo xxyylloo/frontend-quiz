@@ -13,9 +13,14 @@
 <div data-theme={theme} class="min-h-screen p-4">
 	<div class="flex justify-end">
 		<div class="flex gap-1">
-			<iconify-icon icon="lucide-sun" class="text-2xl"></iconify-icon>
-			<input type="checkbox" class="toggle" checked="checked" on:click={switchTheme} />
-			<iconify-icon icon="lucide-moon" class="text-2xl"></iconify-icon>
+			<iconify-icon icon="lucide-sun" class="text-2xl text-primary"></iconify-icon>
+			<input
+				type="checkbox"
+				class="toggle border-primary bg-primary hover:bg-primary"
+				checked="checked"
+				on:click={switchTheme}
+			/>
+			<iconify-icon icon="lucide-moon" class="text-2xl text-primary"></iconify-icon>
 		</div>
 	</div>
 	<slot />
