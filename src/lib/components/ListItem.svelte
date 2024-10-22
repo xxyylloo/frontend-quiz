@@ -3,7 +3,7 @@
 	let ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 </script>
 
-<button class="alert flex focus:outline-primary focus:outline">
+<button class="alert flex focus:outline focus:outline-primary">
 	{#if icon}
 		<img src={icon} alt={title + '-Icon'} />
 	{:else}
