@@ -1,5 +1,4 @@
 <script>
-	import ListItem from '$lib/components/ListItem.svelte';
 	export let data;
 	import ListItem from '$lib/components/ListItem.svelte';
 </script>
