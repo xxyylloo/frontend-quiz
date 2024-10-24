@@ -1,27 +1,31 @@
 <script>
 	import { page } from '$app/stores';
+	import { store } from '$lib/store.svelte.js';
 	import ListItem from '$lib/components/ListItem.svelte';
-	export let data;
-	let activeQuestion = 0;
-	let score = 0;
-	let answer = 'Hallo???';
+	let { data } = $props();
+	let activeQuestion = $state(0);
+	let quiz = data.quizzes.filter((quiz) => quiz.title.toLowerCase() === $page.params.quiz)[0];
 	function handleSubmit() {
-		if (activeQuestion === data.questions.length - 1) {
+		if (quiz.questions[activeQuestion].answer === store.selectedAnswer) {
+			store.score++;
+		} else {
+			alert('Incorrect Answer!');
+		}
+		if (activeQuestion === quiz.questions.length - 1) {
 			alert('Quiz Completed!');
 		}
 		activeQuestion++;
 	}
 </script>
 
-{#each data.questions as question, index (question.question)}
+{#each quiz.questions as question, index (question.question)}
 	{#if index === activeQuestion}
-		<span>Question {index + 1} out of {data.questions.length}</span>
+		<span>Question {index + 1} out of {quiz.questions.length}</span>
 		<h2>{question.question}</h2>
 		{#each question.options as option, index}
-			<ListItem title={option} {index} on:click={() => alert(option)} />
+			<ListItem title={option} {index} />
 		{/each}
 	{/if}
 {/each}
 
-<button class="btn btn-primary" on:click={handleSubmit}>Submit Answer</button>
-{answer}
+<button class="btn btn-primary" onclick={handleSubmit}>Submit Answer</button>

@@ -1,9 +1,13 @@
 <script>
-	export let icon, title, index;
+	import { store } from '$lib/store.svelte.js';
+	let { icon, title, index } = $props();
 	let ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 </script>
 
-<button class="alert flex focus:outline focus:outline-primary">
+<button
+	class="alert flex focus:outline focus:outline-primary outline outline-error"
+	onfocus={() => (store.selectedAnswer = title)}
+>
 	{#if icon}
 		<img src={icon} alt={title + '-Icon'} />
 	{:else}

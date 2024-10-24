@@ -1,8 +1,15 @@
 <script>
 	import '../app.css';
 	import 'iconify-icon';
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
 
-	let theme = 'dark';
+	/** @type {Props} */
+	let { children } = $props();
+
+	let theme = $state('dark');
 
 	function switchTheme() {
 		if (theme === 'dark') theme = 'light';
@@ -18,10 +25,10 @@
 				type="checkbox"
 				class="toggle border-none bg-white [--tglbg:#a729f5] hover:bg-white"
 				checked="checked"
-				on:click={switchTheme}
+				onclick={switchTheme}
 			/>
 			<iconify-icon icon="lucide-moon" class="text-2xl"></iconify-icon>
 		</div>
 	</div>
-	<slot />
+	{@render children?.()}
 </div>

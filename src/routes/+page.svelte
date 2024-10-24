@@ -1,6 +1,6 @@
 <script>
-	export let data;
 	import ListItem from '$lib/components/ListItem.svelte';
+	let { data } = $props();
 </script>
 
 <h1>Welcome to the <strong class="text-primary">Frontend Quiz!</strong></h1>
