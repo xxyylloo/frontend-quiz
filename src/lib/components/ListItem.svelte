@@ -5,7 +5,7 @@
 </script>
 
 <button
-	class="alert flex focus:outline focus:outline-primary outline outline-error"
+	class="alert flex focus:outline focus:outline-primary"
 	onfocus={() => (store.selectedAnswer = title)}
 >
 	{#if icon}
