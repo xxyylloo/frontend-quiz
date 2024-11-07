@@ -3,29 +3,57 @@
 	import { store } from '$lib/store.svelte.js';
 	import ListItem from '$lib/components/ListItem.svelte';
 	let { data } = $props();
-	let activeQuestion = $state(0);
+
+	let currentQuestion = $state(0);
+	let selectedAnswer = $state('');
+	let score = $state(0);
+	let submitted = $state(false);
 
 	function handleSubmit() {
-		if (data.questions[activeQuestion].answer === store.selectedAnswer) {
-			store.score++;
-		} else {
-			alert('Incorrect Answer!');
+		data.questions[currentQuestion].selectedAnswer = selectedAnswer;
+		let solution = data.questions[currentQuestion].answer;
+		if (selectedAnswer === solution) {
+			score++;
 		}
-		if (activeQuestion === data.questions.length - 1) {
-			alert('Quiz Completed!');
-		}
-		activeQuestion++;
+		submitted = true;
+	}
+	function nextQuestion() {
+		submitted = false;
+		selectedAnswer = '';
+		currentQuestion++;
 	}
 </script>
 
-{#each data.questions as question, index (question.question)}
-	{#if index === activeQuestion}
-		<span>Question {index + 1} out of {data.questions.length}</span>
-		<h2>{question.question}</h2>
-		{#each question.options as option, index}
-			<ListItem title={option} {index} />
-		{/each}
-	{/if}
-{/each}
+{#if currentQuestion < data.questions.length}
+	{#each data.questions as question, index (question.question)}
+		{#if index === currentQuestion}
+			<p>Question {index + 1} of {data.questions.length}</p>
+			<h2>{question.question}</h2>
+			{#each question.options as option, index (option)}
+				{#key submitted}
+					<ListItem
+						title={option}
+						{index}
+						incorrectAnswer={question.selectedAnswer &&
+							option === question.selectedAnswer &&
+							question.selectedAnswer !== question.answer}
+						focusAction={() => (selectedAnswer = option)}
+						correctAnswer={question.selectedAnswer && option === question.answer}
+						disabled={submitted}
+					></ListItem>
+				{/key}
+			{/each}
+		{/if}
+	{/each}
 
-<button class="btn btn-primary" onclick={handleSubmit}>Submit Answer</button>
+	{#if !submitted}
+		<button class="btn btn-primary" onclick={handleSubmit} disabled={!selectedAnswer}>Submit</button
+		>
+	{:else}
+		<button class="btn btn-primary" onclick={nextQuestion}>Next Question</button>
+	{/if}
+{:else}
+	<p>Game Over!</p>
+	<p>You scored {score} out of {data.questions.length}!</p>
+	<button class="btn btn-primary" onclick={window.location.reload()}>Play again!</button>
+{/if}
