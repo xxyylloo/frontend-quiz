@@ -4,7 +4,14 @@
 	import ListItem from '$lib/components/ListItem.svelte';
 	let { data } = $props();
 
+	import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
+
 	let currentQuestion = $state(0);
+	const progress = tweened(1, {
+		duration: 400,
+		easing: cubicOut
+	});
 	let selectedAnswer = $state('');
 	let score = $state(0);
 	let submitted = $state(false);
@@ -21,6 +28,7 @@
 		submitted = false;
 		selectedAnswer = '';
 		currentQuestion++;
+		$progress++;
 	}
 </script>
 
@@ -28,7 +36,10 @@
 	{#each data.questions as question, index (question.question)}
 		{#if index === currentQuestion}
 			<p>Question {index + 1} of {data.questions.length}</p>
+			<progress class="progress progress-primary w-56" value={$progress} max={data.questions.length}
+			></progress>
 			<h2>{question.question}</h2>
+
 			{#each question.options as option, index (option)}
 				{#key submitted}
 					<ListItem
