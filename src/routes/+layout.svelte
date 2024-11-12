@@ -1,13 +1,14 @@
 <script>
 	import '../app.css';
 	import 'iconify-icon';
+	import { fade } from 'svelte/transition';
 	/**
 	 * @typedef {Object} Props
 	 * @property {import('svelte').Snippet} [children]
 	 */
 
 	/** @type {Props} */
-	let { children } = $props();
+	let { children, data } = $props();
 
 	let theme = $state('dark');
 
@@ -30,5 +31,9 @@
 			<iconify-icon icon="lucide-moon" class="text-2xl"></iconify-icon>
 		</div>
 	</div>
-	{@render children?.()}
+	{#key data.url}
+		<div in:fade={{ delay: 1000, duration: 1000 }} out:fade={{ duration: 1000 }}>
+			{@render children?.()}
+		</div>
+	{/key}
 </div>
