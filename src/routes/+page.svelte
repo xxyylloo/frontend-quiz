@@ -66,7 +66,7 @@
     {#each data.quizzes as quiz, index (quiz.title)}
         <a 
             href="/{quiz.title.toLowerCase()}" 
-            class="transform transition duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-white p-4 rounded-lg shadow-lg bg-light border-2 border-transparent hover:border-accent">
+            class="transform transition duration-300 ease-in-out hover:bg-primary hover:text-white p-4 rounded-lg shadow-lg bg-light border-2 border-transparent hover:border-accent">
             <ListItem title={quiz.title} {index} />
         </a>
     {/each}
